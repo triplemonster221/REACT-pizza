@@ -1,7 +1,13 @@
 import { useState } from "react";
 
-const PizzaBlock = () => {
+const typesArray = ["тонкое", "традиционное"];
+
+const PizzaBlock = (props) => {
   const [count, setCount] = useState(0);
+  const [activeTipes, setActiveTipes] = useState(0);
+  const [activeSizes, setActiveSizes] = useState(0);
+  const { title, types, sizes } = props;
+
   return (
     <div className="pizza-block">
       <img
@@ -9,16 +15,23 @@ const PizzaBlock = () => {
         src="https://media.dodostatic.net/image/r:292x292/019c986d0e7d75e595d9b0f02bda0ed5.avif"
         alt="Pizza"
       />
-      <h4 className="pizza-block__title">Чизбургер-пицца</h4>
+      <h4 className="pizza-block__title">{title}</h4>
       <div className="pizza-block__selector">
         <ul>
-          <li className="active">тонкое</li>
-          <li>традиционное</li>
+          {types &&
+            types.map((_, index) => (
+              <li className={activeTipes === index ? "active" : ""} onClick={() => setActiveTipes(index)} key={index}>
+                {typesArray[index]}
+              </li>
+            ))}
         </ul>
         <ul>
-          <li className="active">26 см.</li>
-          <li>30 см.</li>
-          <li>40 см.</li>
+          {sizes &&
+            sizes.map((size, index) => (
+              <li className={activeSizes === index ? "active" : ""} onClick={() => setActiveSizes(index)} key={size}>
+                {size} см.
+              </li>
+            ))}
         </ul>
       </div>
       <div className="pizza-block__bottom">

@@ -1,4 +1,16 @@
+import { useState } from "react";
+
+const sortArray = ["популярности", "цене", "алфавиту"];
+
 const Sort = () => {
+  const [openModal, setOpenModal] = useState(false);
+  const [activeSort, setActiveSort] = useState("популярности");
+
+  const hundleActiveSort = (sortElem) => {
+    setActiveSort(sortElem);
+    setOpenModal(false);
+  };
+
   return (
     <div className="sort">
       <div className="sort__label">
@@ -9,15 +21,17 @@ const Sort = () => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span>популярности</span>
+        <span onClick={() => setOpenModal(!openModal)}>{activeSort}</span>
       </div>
-      <div className="sort__popup">
-        <ul>
-          <li className="active">популярности</li>
-          <li>цене</li>
-          <li>алфавиту</li>
-        </ul>
-      </div>
+      {openModal && (
+        <div className="sort__popup">
+          <ul>
+            {sortArray.map((sortElem) => (
+              <li onClick={() => hundleActiveSort(sortElem)}>{sortElem}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

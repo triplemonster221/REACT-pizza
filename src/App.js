@@ -4,6 +4,8 @@ import PizzaBlock from "./components/pizza-block";
 import Sort from "./components/sort";
 import "./scss/app.scss";
 
+import pizzas from "./assets/pazza.json";
+
 function App() {
   return (
     <div className="wrapper">
@@ -16,9 +18,7 @@ function App() {
             <Sort />
           </div>
           <h2 className="content__title">Все пиццы</h2>
-          <div className="content__items">
-            <PizzaBlock />
-          </div>
+          <div className="content__items">{pizzas && pizzas.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />)}</div>
         </div>
       </div>
     </div>

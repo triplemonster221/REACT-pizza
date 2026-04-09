@@ -6,7 +6,7 @@ const PizzaBlock = (props) => {
   const [count, setCount] = useState(0);
   const [activeTipes, setActiveTipes] = useState(0);
   const [activeSizes, setActiveSizes] = useState(0);
-  const { title, types, sizes } = props;
+  const { title, types, sizes, price } = props;
 
   return (
     <div className="pizza-block">
@@ -35,7 +35,7 @@ const PizzaBlock = (props) => {
         </ul>
       </div>
       <div className="pizza-block__bottom">
-        <div className="pizza-block__price">от 395 ₽</div>
+        <div className="pizza-block__price">от {price} ₽</div>
         <button onClick={() => setCount(count + 1)} className="button button--outline button--add">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path

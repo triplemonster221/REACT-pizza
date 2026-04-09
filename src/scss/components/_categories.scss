@@ -1,8 +1,10 @@
-@import '../variables';
+@import "../variables";
 
 .categories {
   ul {
     display: flex;
+    flex-wrap: wrap;
+    row-gap: 10px;
 
     li {
       background-color: #f9f9f9;
@@ -13,7 +15,6 @@
       cursor: pointer;
       transition: background-color 0.1s ease-in-out;
       @include noselect();
- 
 
       &.active {
         background-color: #282828;

@@ -27,7 +27,9 @@ const Sort = () => {
         <div className="sort__popup">
           <ul>
             {sortArray.map((sortElem) => (
-              <li onClick={() => hundleActiveSort(sortElem)}>{sortElem}</li>
+              <li key={sortElem} onClick={() => hundleActiveSort(sortElem)}>
+                {sortElem}
+              </li>
             ))}
           </ul>
         </div>

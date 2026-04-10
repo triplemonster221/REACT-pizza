@@ -1,0 +1,39 @@
+.root {
+}
+
+.wrap {
+  position: relative;
+  max-width: 200px;
+  width: 100%;
+  height: 40px;
+}
+
+.icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.close {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.input {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  color: #000;
+  font-size: 14px;
+  padding-left: 30px;
+  padding-right: 20px;
+
+  &::placeholder {
+    font-size: 14px;
+    color: #000;
+  }
+}

@@ -1,7 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Categories, MyLoader, PizzaBlock, Sort } from "../../components";
+import { SearchContext } from "../../App";
 
 const Home = () => {
+  const { searchValue } = useContext(SearchContext);
+
   const [pizzas, setPizzas] = useState([]);
   const [isLoading, setIsLoading] = useState([true]);
 
@@ -12,10 +15,11 @@ const Home = () => {
   const category = activeCategory > 0 ? `&category=${activeCategory}` : "";
   const sortBy = `?sortBy=${activeSort.sort}`;
   const orderParams = order ? "desc" : "asc";
+  const search = searchValue !== "" ? `&search=${searchValue}` : "";
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(`https://69b5a49e583f543fbd9c12e0.mockapi.io/items${sortBy}${category}&order=${orderParams}`)
+    fetch(`https://69b5a49e583f543fbd9c12e0.mockapi.io/items${sortBy}${category}&order=${orderParams}${search}`)
       .then((response) => {
         return response.json();
       })
@@ -24,7 +28,7 @@ const Home = () => {
         setIsLoading(false);
       });
     window.scroll(0, 0);
-  }, [activeCategory, sortBy, order]);
+  }, [activeCategory, sortBy, order, searchValue]);
 
   return (
     <div className="container">
@@ -42,7 +46,7 @@ const Home = () => {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
-        {!isLoading
+        {!isLoading && Array.isArray(pizzas)
           ? pizzas.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />)
           : [...new Array(10)].map((_, i) => <MyLoader key={i} />)}
       </div>

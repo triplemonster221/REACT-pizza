@@ -3,3 +3,4 @@ export { default as Categories } from "./categories";
 export { default as PizzaBlock } from "./pizza-block";
 export { default as MyLoader } from "./skeleton";
 export { default as Sort } from "./sort";
+export { default as Search } from "./search";

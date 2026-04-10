@@ -1,0 +1,28 @@
+.paginate {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 50px 0;
+
+  :global {
+    li {
+      &.selected {
+        a {
+          background: #fe5f1e;
+          color: #fff;
+        }
+      }
+
+      a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        border: 1px solid #eee;
+        cursor: pointer;
+      }
+    }
+  }
+}

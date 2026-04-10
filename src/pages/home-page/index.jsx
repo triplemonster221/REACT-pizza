@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import { Categories, MyLoader, PizzaBlock, Sort } from "../../components";
+
+import { Categories, MyLoader, Pagination, PizzaBlock, Sort } from "../../components";
 import { SearchContext } from "../../App";
 
 const Home = () => {
@@ -11,6 +12,7 @@ const Home = () => {
   const [activeCategory, setActiveCategory] = useState(0);
   const [activeSort, setActiveSort] = useState({ name: "популярности", sort: "rating" });
   const [order, setOrder] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const category = activeCategory > 0 ? `&category=${activeCategory}` : "";
   const sortBy = `?sortBy=${activeSort.sort}`;
@@ -19,7 +21,7 @@ const Home = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(`https://69b5a49e583f543fbd9c12e0.mockapi.io/items${sortBy}${category}&order=${orderParams}${search}`)
+    fetch(`https://69b5a49e583f543fbd9c12e0.mockapi.io/items${sortBy}&limit=4&page=${currentPage}${category}&order=${orderParams}${search}`)
       .then((response) => {
         return response.json();
       })
@@ -28,7 +30,7 @@ const Home = () => {
         setIsLoading(false);
       });
     window.scroll(0, 0);
-  }, [activeCategory, sortBy, order, searchValue]);
+  }, [activeCategory, sortBy, order, searchValue, currentPage]);
 
   return (
     <div className="container">
@@ -50,6 +52,7 @@ const Home = () => {
           ? pizzas.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />)
           : [...new Array(10)].map((_, i) => <MyLoader key={i} />)}
       </div>
+      <Pagination setCurrentPage={(page) => setCurrentPage(page)} />
     </div>
   );
 };

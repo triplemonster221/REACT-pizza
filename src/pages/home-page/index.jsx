@@ -1,22 +1,22 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Categories, MyLoader, Pagination, PizzaBlock, Sort } from "../../components";
-import { SearchContext } from "../../App";
+import { useSelector } from "react-redux";
 
 const Home = () => {
-  const { searchValue } = useContext(SearchContext);
-
   const [pizzas, setPizzas] = useState([]);
   const [isLoading, setIsLoading] = useState([true]);
+  // const [currentPage, setCurrentPage] = useState(1);
 
-  const [activeCategory, setActiveCategory] = useState(0);
-  const [activeSort, setActiveSort] = useState({ name: "популярности", sort: "rating" });
-  const [order, setOrder] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
+  const activeCategory = useSelector((state) => state.filter.category);
+  const activeSort = useSelector((state) => state.filter.sortArray);
+  const activeOrder = useSelector((state) => state.filter.order);
+  const searchValue = useSelector((state) => state.filter.search);
+  const currentPage = useSelector((state) => state.filter.page);
 
   const category = activeCategory > 0 ? `&category=${activeCategory}` : "";
   const sortBy = `?sortBy=${activeSort.sort}`;
-  const orderParams = order ? "desc" : "asc";
+  const orderParams = activeOrder ? "desc" : "asc";
   const search = searchValue !== "" ? `&search=${searchValue}` : "";
 
   useEffect(() => {
@@ -30,21 +30,13 @@ const Home = () => {
         setIsLoading(false);
       });
     window.scroll(0, 0);
-  }, [activeCategory, sortBy, order, searchValue, currentPage]);
+  }, [activeCategory, activeSort, activeOrder, searchValue, currentPage]);
 
   return (
     <div className="container">
       <div className="content__top">
-        <Categories
-          activeCategory={activeCategory}
-          setActiveCategory={(activeCategoryCallBack) => setActiveCategory(activeCategoryCallBack)}
-        />
-        <Sort
-          activeSort={activeSort}
-          setActiveSort={(setActiveSortCallback) => setActiveSort(setActiveSortCallback)}
-          order={order}
-          setOrder={(setOrderCalback) => setOrder(setOrderCalback)}
-        />
+        <Categories />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
@@ -52,7 +44,7 @@ const Home = () => {
           ? pizzas.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />)
           : [...new Array(10)].map((_, i) => <MyLoader key={i} />)}
       </div>
-      <Pagination setCurrentPage={(page) => setCurrentPage(page)} />
+      <Pagination />
     </div>
   );
 };

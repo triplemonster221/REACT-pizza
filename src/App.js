@@ -1,10 +1,9 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
-import { createContext, useState } from "react";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
 import "./scss/app.scss";
 import { Cart, Home, Layout, NotFound } from "./pages";
-
-export const SearchContext = createContext("");
 
 const router = createBrowserRouter([
   {
@@ -19,12 +18,10 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const [searchValue, setValue] = useState("");
-
   return (
-    <SearchContext.Provider value={{ searchValue, setValue }}>
+    <Provider store={store}>
       <RouterProvider router={router} />
-    </SearchContext.Provider>
+    </Provider>
   );
 }
 

@@ -2,11 +2,12 @@ import { CiSearch } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
 
 import styles from "./style.module.scss";
-import { useContext } from "react";
-import { SearchContext } from "../../App";
+import { useDispatch, useSelector } from "react-redux";
+import { setSearch } from "../../redux/slices/sortSlice";
 
 const Search = () => {
-  const { searchValue, setValue } = useContext(SearchContext);
+  const searchValue = useSelector((state) => state.filter.search);
+  const dispatch = useDispatch();
 
   return (
     <div className={styles.root}>
@@ -14,12 +15,12 @@ const Search = () => {
         <CiSearch className={styles.icon} />
         <input
           value={searchValue}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => dispatch(setSearch(e.target.value))}
           className={styles.input}
           type="text"
           placeholder="Введите значение"
         />
-        {searchValue !== "" ? <IoMdClose onClick={() => setValue("")} className={styles.close} /> : ""}
+        {searchValue !== "" ? <IoMdClose onClick={() => dispatch(setSearch(""))} className={styles.close} /> : ""}
       </div>
     </div>
   );

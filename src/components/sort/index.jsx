@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setOrder, setSort } from "../../redux/slices/sortSlice";
 
-const sortArray = [
+export const sortArray = [
   { name: "популярности", sort: "rating" },
   { name: "цене", sort: "price" },
   { name: "алфавиту", sort: "title" },
@@ -10,7 +10,7 @@ const sortArray = [
 
 const Sort = () => {
   const [openModal, setOpenModal] = useState(false);
-  const activeSort = useSelector((state) => state.filter.sortArray);
+  const activeSort = useSelector((state) => state.filter.sortArray2);
   const activeOrder = useSelector((state) => state.filter.order);
   const dispatch = useDispatch();
 

@@ -1,36 +1,81 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import axios from "axios";
+import qs from "qs";
 
 import { Categories, MyLoader, Pagination, PizzaBlock, Sort } from "../../components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import { setFilters } from "../../redux/slices/sortSlice";
+import { sortArray } from "../../components/sort";
 
 const Home = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isSearch = useRef(false);
+  const isMounted = useRef(false);
+
   const [pizzas, setPizzas] = useState([]);
   const [isLoading, setIsLoading] = useState([true]);
-  // const [currentPage, setCurrentPage] = useState(1);
+  const { category, sortArray2, order, search, page } = useSelector((state) => state.filter);
 
-  const activeCategory = useSelector((state) => state.filter.category);
-  const activeSort = useSelector((state) => state.filter.sortArray);
-  const activeOrder = useSelector((state) => state.filter.order);
-  const searchValue = useSelector((state) => state.filter.search);
-  const currentPage = useSelector((state) => state.filter.page);
+  const categoryParam = category > 0 ? `&category=${category}` : "";
+  const sortBy = `?sortBy=${sortArray2.sort}`;
+  const orderParams = order ? "desc" : "asc";
+  const searchParam = search !== "" ? `&search=${search}` : "";
 
-  const category = activeCategory > 0 ? `&category=${activeCategory}` : "";
-  const sortBy = `?sortBy=${activeSort.sort}`;
-  const orderParams = activeOrder ? "desc" : "asc";
-  const search = searchValue !== "" ? `&search=${searchValue}` : "";
-
-  useEffect(() => {
+  const fetchPizzas = () => {
     setIsLoading(true);
-    fetch(`https://69b5a49e583f543fbd9c12e0.mockapi.io/items${sortBy}&limit=4&page=${currentPage}${category}&order=${orderParams}${search}`)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setPizzas(data);
+    axios
+      .get(
+        `https://69b5a49e583f543fbd9c12e0.mockapi.io/items${sortBy}&limit=4&page=${page}${categoryParam}&order=${orderParams}${searchParam}`,
+      )
+      .then((res) => {
+        setPizzas(res.data);
         setIsLoading(false);
       });
+  };
+
+  // уже был первый рендер и теперь вшиваем данные в url
+  useEffect(() => {
+    if (isMounted.current) {
+      const queryString = qs.stringify({
+        sortBy: sortArray2.sort,
+        category: category,
+        page: page,
+      });
+      navigate(`?${queryString}`);
+    }
+    isMounted.current = true;
+  }, [category, sortArray2, page]);
+
+  //если был первый рендер, сохраняем в редуксе
+  useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1));
+
+      const sort = sortArray.find((obj) => {
+        return obj.sort === params.sortBy;
+      });
+
+      dispatch(
+        setFilters({
+          ...params,
+          sort,
+        }),
+      );
+
+      isSearch.current = true;
+    }
+  }, []);
+
+  // Запрашиваем пиццы
+  useEffect(() => {
+    if (!isSearch.current) {
+      fetchPizzas();
+    }
     window.scroll(0, 0);
-  }, [activeCategory, activeSort, activeOrder, searchValue, currentPage]);
+    isSearch.current = false;
+  }, [category, sortArray2, order, search, page]);
 
   return (
     <div className="container">

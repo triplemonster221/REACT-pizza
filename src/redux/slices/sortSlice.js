@@ -34,7 +34,6 @@ export const sortSlice = createSlice({
       state.category = Number(action.payload.category);
       state.sortArray2 = action.payload.sort;
       state.page = action.payload.page;
-      console.log("payload", action.payload);
     },
   },
 });

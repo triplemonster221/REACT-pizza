@@ -5,3 +5,4 @@ export { default as MyLoader } from "./skeleton";
 export { default as Sort } from "./sort";
 export { default as Search } from "./search";
 export { default as Pagination } from "./pagination";
+export { default as MyLoaderSingle } from "./single-skeleton";

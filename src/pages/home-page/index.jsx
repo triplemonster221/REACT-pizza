@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import axios from "axios";
 import qs from "qs";
 
 import { Categories, MyLoader, Pagination, PizzaBlock, Sort } from "../../components";
@@ -7,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { setFilters } from "../../redux/slices/sortSlice";
 import { sortArray } from "../../components/sort";
+import { fetchPizzasArray } from "../../redux/slices/pizzaSlice";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -14,9 +14,8 @@ const Home = () => {
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
-  const [pizzas, setPizzas] = useState([]);
-  const [isLoading, setIsLoading] = useState([true]);
   const { category, sortArray2, order, search, page } = useSelector((state) => state.filter);
+  const { pizzasArray, status } = useSelector((state) => state.pizzas);
 
   const categoryParam = category > 0 ? `&category=${category}` : "";
   const sortBy = `?sortBy=${sortArray2.sort}`;
@@ -24,15 +23,15 @@ const Home = () => {
   const searchParam = search !== "" ? `&search=${search}` : "";
 
   const fetchPizzas = () => {
-    setIsLoading(true);
-    axios
-      .get(
-        `https://69b5a49e583f543fbd9c12e0.mockapi.io/items${sortBy}&limit=4&page=${page}${categoryParam}&order=${orderParams}${searchParam}`,
-      )
-      .then((res) => {
-        setPizzas(res.data);
-        setIsLoading(false);
-      });
+    dispatch(
+      fetchPizzasArray({
+        categoryParam,
+        sortBy,
+        orderParams,
+        searchParam,
+        page,
+      }),
+    );
   };
 
   // уже был первый рендер и теперь вшиваем данные в url
@@ -85,9 +84,9 @@ const Home = () => {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
-        {!isLoading && Array.isArray(pizzas)
-          ? pizzas.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />)
-          : [...new Array(10)].map((_, i) => <MyLoader key={i} />)}
+        {status !== "loading" && Array.isArray(pizzasArray)
+          ? pizzasArray.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />)
+          : [...new Array(4)].map((_, i) => <MyLoader key={i} />)}
       </div>
       <Pagination />
     </div>

@@ -1,0 +1,97 @@
+@import "../../scss/variables";
+
+.title {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: space-between;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.left {
+  width: 45%;
+
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+.emptyContaier {
+  height: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  h1 {
+    text-align: center;
+  }
+}
+
+.right {
+  width: 45%;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+.descp {
+  margin-bottom: 40px;
+  font-size: 16px;
+}
+
+.rightBottom {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin: 40px 0;
+}
+
+.price {
+  font-size: 40px;
+}
+
+.addToCart {
+  font-size: 16px;
+  font-weight: 600;
+  width: 210px;
+  padding: 16px;
+  display: inline-block;
+  background-color: $orange;
+  border-radius: 30px;
+  padding: 10px 20px;
+  min-width: 100px;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    background-color $duration ease-in-out,
+    border-color $duration ease-in-out;
+  border: 1px solid transparent;
+  color: #fff;
+}
+
+.btn {
+  padding: 20px;
+  margin: 50px 0;
+  color: #fff;
+  display: block;
+  width: 250px;
+  font-size: 20px;
+  background: #aaa;
+}

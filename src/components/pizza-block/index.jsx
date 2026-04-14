@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addProduct } from "../../redux/slices/cartSlice";
-const typesArray = ["тонкое", "традиционное"];
+import { Link } from "react-router";
+import { typesArray } from "../../data/types";
 
 const PizzaBlock = (props) => {
   const { id, category, title, types, sizes, price, rating, imageUrl } = props;
@@ -29,11 +30,13 @@ const PizzaBlock = (props) => {
 
   return (
     <div className="pizza-block">
-      <img
-        className="pizza-block__image"
-        src="https://media.dodostatic.net/image/r:292x292/019c986d0e7d75e595d9b0f02bda0ed5.avif"
-        alt="Pizza"
-      />
+      <Link to={`pizzas/${id}`}>
+        <img
+          className="pizza-block__image"
+          src="https://media.dodostatic.net/image/r:292x292/019c986d0e7d75e595d9b0f02bda0ed5.avif"
+          alt="Pizza"
+        />
+      </Link>
       <h4 className="pizza-block__title">{title}</h4>
       <div className="pizza-block__selector">
         <ul>

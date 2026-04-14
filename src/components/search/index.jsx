@@ -4,13 +4,12 @@ import { IoMdClose } from "react-icons/io";
 import { debounce } from "lodash";
 
 import styles from "./style.module.scss";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setSearch } from "../../redux/slices/sortSlice";
 import { useCallback, useRef, useState } from "react";
 
 const Search = () => {
   const [value, setValue] = useState("");
-  const searchValue = useSelector((state) => state.filter.search);
   const dispatch = useDispatch();
   const inputRef = useRef();
 
@@ -23,6 +22,7 @@ const Search = () => {
 
   const hundleClearInput = () => {
     dispatch(setSearch(""));
+    setValue("");
     inputRef.current.focus();
   };
 

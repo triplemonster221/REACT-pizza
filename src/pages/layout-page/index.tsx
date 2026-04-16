@@ -1,7 +1,8 @@
+import React from "react";
 import { Outlet } from "react-router";
 import { Header } from "../../components";
 
-const Layout = () => {
+const Layout: React.FC = () => {
   return (
     <div className="wrapper">
       <Header />

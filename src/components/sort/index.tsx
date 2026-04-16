@@ -1,29 +1,32 @@
+import React, { memo } from "react";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setOrder, setSort } from "../../redux/slices/sortSlice";
+import { RootState } from "../../redux/store";
+import { TsortArray2 } from "../../types/Tfilter";
 
-export const sortArray = [
+export const sortArray: TsortArray2[] = [
   { name: "популярности", sort: "rating" },
   { name: "цене", sort: "price" },
   { name: "алфавиту", sort: "title" },
 ];
 
-const Sort = () => {
+const Sort: React.FC = memo(() => {
   const [openModal, setOpenModal] = useState(false);
-  const activeSort = useSelector((state) => state.filter.sortArray2);
-  const activeOrder = useSelector((state) => state.filter.order);
+  const activeSort = useSelector((state: RootState) => state.filter.sortArray2);
+  const activeOrder = useSelector((state: RootState) => state.filter.order);
   const dispatch = useDispatch();
 
-  const sortRef = useRef();
+  const sortRef = useRef<HTMLDivElement>(null);
 
-  const hundleActiveSort = (sortElem) => {
+  const hundleActiveSort = (sortElem: TsortArray2) => {
     dispatch(setSort({ name: sortElem.name, sort: sortElem.sort }));
     setOpenModal(false);
   };
 
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (!e.composedPath().includes(sortRef.current)) {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (sortRef.current && !sortRef.current.contains(e.target as Node)) {
         setOpenModal(false);
       }
     };
@@ -67,6 +70,6 @@ const Sort = () => {
       )}
     </div>
   );
-};
+});
 
 export default Sort;

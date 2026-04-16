@@ -1,15 +1,17 @@
+import React, { memo, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCategory } from "../../redux/slices/sortSlice";
+import { RootState } from "../../redux/store";
 
 const categoryArray = ["Все", "Мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"];
 
-const Categories = () => {
-  const activeCategory = useSelector((state) => state.filter.category);
+const Categories: React.FC = memo(() => {
+  const activeCategory = useSelector((state: RootState) => state.filter.category);
   const dispatch = useDispatch();
 
-  const hundleActiveCategory = (categotyId) => {
+  const hundleActiveCategory = useCallback((categotyId: number) => {
     dispatch(setCategory(categotyId));
-  };
+  }, []);
 
   return (
     <div className="categories">
@@ -22,6 +24,6 @@ const Categories = () => {
       </ul>
     </div>
   );
-};
+});
 
 export default Categories;

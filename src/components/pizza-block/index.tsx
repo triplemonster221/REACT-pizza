@@ -1,14 +1,17 @@
 import { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addProduct } from "../../redux/slices/cartSlice";
 import { Link } from "react-router";
 import { typesArray } from "../../data/types";
+import { RootState } from "../../redux/store";
+import { TPizza } from "../../types/TCartItem";
 
-const PizzaBlock = (props) => {
-  const { id, category, title, types, sizes, price, rating, imageUrl } = props;
+const PizzaBlock: React.FC<TPizza> = (props) => {
+  const { id, category, title, types, sizes, price, rating, imageUrl, count } = props;
   const dispatch = useDispatch();
-  const countCart = useSelector((state) => state.cart.items.find((item) => item.id === id));
-  const addedCount = countCart ? countCart.count : "";
+  const countCart = useSelector((state: RootState) => state.cart.items.find((item) => item.id === id));
+  const addedCount = countCart ? countCart.count : 0;
 
   const [activeTipes, setActiveTipes] = useState(0);
   const [activeSizes, setActiveSizes] = useState(26);
@@ -23,6 +26,7 @@ const PizzaBlock = (props) => {
       price,
       rating,
       imageUrl,
+      count,
     };
 
     dispatch(addProduct(product));
@@ -49,7 +53,7 @@ const PizzaBlock = (props) => {
         </ul>
         <ul>
           {sizes &&
-            sizes.map((size, index) => (
+            sizes.map((size) => (
               <li className={activeSizes === size ? "active" : ""} onClick={() => setActiveSizes(size)} key={size}>
                 {size} см.
               </li>

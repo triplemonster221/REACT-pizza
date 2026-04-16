@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import axios from "axios";
@@ -5,10 +6,10 @@ import { Link, useParams } from "react-router";
 import { typesArray } from "../../data/types";
 import { useDispatch } from "react-redux";
 import { addProduct } from "../../redux/slices/cartSlice";
-import { MyLoaderSingle } from "../../components";
+import { TPizza } from "../../types/TCartItem";
 
-const SinglePizza = () => {
-  const [data, setData] = useState();
+const SinglePizza: React.FC = () => {
+  const [data, setData] = useState<TPizza>();
   const [activeSizes, setActiveSizes] = useState(26);
   const [activeTypes, setActiveTypes] = useState(0);
   const dispatch = useDispatch();
@@ -28,6 +29,14 @@ const SinglePizza = () => {
     getSinglePizza();
   }, []);
 
+  if (!data) {
+    return (
+      <div className={styles.emptyContaier}>
+        <h1>Идет загрузка...</h1>
+      </div>
+    );
+  }
+
   const addToCart = () => {
     const product = {
       id: data.id,
@@ -37,17 +46,11 @@ const SinglePizza = () => {
       price: data.price,
       rating: data.rating,
       imageUrl: data.imageUrl,
+      category: data.category,
+      count: data.count,
     };
     dispatch(addProduct(product));
   };
-
-  if (!data) {
-    return (
-      <div className={styles.emptyContaier}>
-        <h1>Идет загрузка...</h1>
-      </div>
-    );
-  }
 
   return (
     <div className="container">

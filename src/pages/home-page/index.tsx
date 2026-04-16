@@ -1,21 +1,23 @@
-import { useEffect, useRef, useState } from "react";
+import React from "react";
+import { useEffect, useRef } from "react";
 import qs from "qs";
 
 import { Categories, MyLoader, Pagination, PizzaBlock, Sort } from "../../components";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { setFilters } from "../../redux/slices/sortSlice";
 import { sortArray } from "../../components/sort";
 import { fetchPizzasArray } from "../../redux/slices/pizzaSlice";
+import { RootState, useAppDispatch } from "../../redux/store";
 
-const Home = () => {
+const Home: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
-  const { category, sortArray2, order, search, page } = useSelector((state) => state.filter);
-  const { pizzasArray, status } = useSelector((state) => state.pizzas);
+  const { category, sortArray2, order, search, page } = useSelector((state: RootState) => state.filter);
+  const { pizzasArray, status } = useSelector((state: RootState) => state.pizzas);
 
   const categoryParam = category > 0 ? `&category=${category}` : "";
   const sortBy = `?sortBy=${sortArray2.sort}`;
@@ -29,7 +31,7 @@ const Home = () => {
         sortBy,
         orderParams,
         searchParam,
-        page,
+        page: String(page),
       }),
     );
   };

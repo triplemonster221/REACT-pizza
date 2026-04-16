@@ -1,6 +1,6 @@
 import ContentLoader from "react-content-loader";
 
-const MyLoaderSingle = (props) => (
+const MyLoaderSingle = (props: any) => (
   <ContentLoader speed={2} width={1260} height={780} viewBox="0 0 1260 480" backgroundColor="#f3f3f3" foregroundColor="#ecebeb" {...props}>
     <circle cx="125" cy="245" r="126" />
     <rect x="297" y="136" rx="10" ry="10" width="280" height="32" />

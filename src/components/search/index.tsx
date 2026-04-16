@@ -1,6 +1,6 @@
 import { CiSearch } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
-
+import React from "react";
 import { debounce } from "lodash";
 
 import styles from "./style.module.scss";
@@ -8,13 +8,13 @@ import { useDispatch } from "react-redux";
 import { setSearch } from "../../redux/slices/sortSlice";
 import { useCallback, useRef, useState } from "react";
 
-const Search = () => {
+const Search: React.FC = () => {
   const [value, setValue] = useState("");
   const dispatch = useDispatch();
-  const inputRef = useRef();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const hundleDebounce = useCallback(
-    debounce((e) => {
+    debounce((e: string) => {
       dispatch(setSearch(e));
     }, 550),
     [],
@@ -23,10 +23,10 @@ const Search = () => {
   const hundleClearInput = () => {
     dispatch(setSearch(""));
     setValue("");
-    inputRef.current.focus();
+    inputRef.current?.focus();
   };
 
-  const hundleInput = (e) => {
+  const hundleInput = (e: string) => {
     setValue(e);
     hundleDebounce(e);
   };

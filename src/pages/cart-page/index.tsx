@@ -1,23 +1,26 @@
+import React from "react";
 import { Link } from "react-router";
 import styles from "./style.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { removeProduct, clearProducts, addProduct, minusCountProduct } from "../../redux/slices/cartSlice";
 import CartEmpty from "../../components/cart-empty/CartEmpty";
+import { RootState } from "../../redux/store";
+import { TCartItem } from "../../types/TCartItem";
 
-const Cart = () => {
-  const { totalPrice, items } = useSelector((state) => state.cart);
+const Cart: React.FC = () => {
+  const { totalPrice, items } = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch();
-  const allCountInCart = items.reduce((sum, item) => sum + item.count, 0);
+  const allCountInCart = items.reduce((sum: number, item: any) => sum + item.count, 0);
 
-  const hundleAddProduct = (product) => {
+  const hundleAddProduct = (product: TCartItem) => {
     dispatch(addProduct(product));
   };
 
-  const handleRemoveProduct = (id) => {
+  const handleRemoveProduct = (id: string) => {
     dispatch(removeProduct(id));
   };
 
-  const hundleMinusCart = (id) => {
+  const hundleMinusCart = (id: string) => {
     dispatch(minusCountProduct(id));
   };
 

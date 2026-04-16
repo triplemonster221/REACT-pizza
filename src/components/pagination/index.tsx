@@ -1,15 +1,13 @@
 import ReactPaginate from "react-paginate";
 
 import styles from "./style.module.scss";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setPage } from "../../redux/slices/sortSlice";
-
-// const currentPage = useSelector((state) => state.filter.page);
 
 const Pagination = () => {
   const dispatch = useDispatch();
 
-  const hundleCurrentPage = (numberPage) => {
+  const hundleCurrentPage = (numberPage: number) => {
     dispatch(setPage(numberPage));
   };
 

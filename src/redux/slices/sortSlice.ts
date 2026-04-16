@@ -1,6 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { TinitialState, TsortArray2 } from "../../types/Tfilter";
 
-const initialState = {
+const initialState: TinitialState = {
   category: 0,
   sortArray2: {
     name: "популярности",
@@ -15,25 +16,25 @@ export const sortSlice = createSlice({
   name: "filter",
   initialState,
   reducers: {
-    setCategory: (state, action) => {
+    setCategory: (state, action: PayloadAction<number>) => {
       state.category = action.payload;
     },
-    setSort: (state, action) => {
+    setSort: (state, action: PayloadAction<TsortArray2>) => {
       state.sortArray2 = action.payload;
     },
-    setOrder: (state, action) => {
+    setOrder: (state, action: PayloadAction<boolean>) => {
       state.order = action.payload;
     },
-    setSearch: (state, action) => {
+    setSearch: (state, action: PayloadAction<string>) => {
       state.search = action.payload;
     },
-    setPage: (state, action) => {
+    setPage: (state, action: PayloadAction<number>) => {
       state.page = action.payload;
     },
     setFilters: (state, action) => {
       state.category = Number(action.payload.category);
       state.sortArray2 = action.payload.sort;
-      state.page = action.payload.page;
+      state.page = Number(action.payload.page);
     },
   },
 });

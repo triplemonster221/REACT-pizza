@@ -2,7 +2,6 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 
-import "./scss/app.scss";
 import { Cart, Home, Layout, NotFound, SinglePizza } from "./pages";
 
 const router = createBrowserRouter([
